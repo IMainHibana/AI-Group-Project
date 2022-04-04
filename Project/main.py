@@ -7,7 +7,7 @@ import sys
 
 def EpsillonGreedyPolicy(Q,epsilon,num_actions):
 
-
+    #yes I used gfg
     def policyFunction(state):
         action_probabilities = np.ones(num_actions, dtype=float) * epsilon/num_actions
         best_action = np.argmax(Q[state])
