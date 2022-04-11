@@ -16,12 +16,10 @@ DETERMINISTIC = False
 
 #FUNCTION THAT WILL REWARD OUR AGENT WHEN DOING SOMETHING RIGHT/WRONG
 def giveReward(self):
-    if self.state in DROP_OFF:
-        return 1
-    elif self.state in PICKUP:
-        return -1
+    if self.state in DROP_OFF or PICKUP:  #IF AGENT IS IN PICKUP OR DROP OFF, GIVE IT 13 POINTS
+        return 13
     else:
-        return 0
+        return -1  # IF APPLYING A DIRECTION, GIVE IT -1
 
 def chooseActionProb(self, action):
     if action == "up":
