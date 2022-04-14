@@ -21,28 +21,28 @@ for i in range(0, ROWS):
         grid[i][j] = (i+1, j+1)
 
 print(grid)
-class State:
+class State:  #class for the states, to have a better idea of how they're being maintained
     def __init__(self, state=INITIAL_STATE_M):
         self.board = np.zeros([ROWS,COLS])
         self.board[1,1] = -1
         self.state = state
         self.isEnd = False
         self.determine = DETERMINISTIC
-    def giveReward(self):
+    def giveReward(self):       #adds the rewards to each state
         if self.state in DROP_OFF:
             return 13
         if self.state in PICKUP:
             return 13
         else:
             return -1
-    def isinDropOff(self):
+    def isinDropOff(self):   #this helps to know if an agent has the ability to drop or not
         if (self.state in DROP_OFF):
             self.canDrop = True
-    def isinPickUp(self):
+    def isinPickUp(self):    #this helps to know if an agent can pick up or not
         if (self.state in PICKUP):
             self.canPickUp = True
 
-    def chooseActionProb(self, action):
+    def chooseActionProb(self, action):   #makes the probability of the actions knowable
         if action == "up":
             return np.random.choice(["up", "left", "right"], p=[0.8, 0.1, 0.1])
         if action == "down":
@@ -53,7 +53,7 @@ class State:
             return np.random.choice(["right", "up", "down"], p=[0.8, 0.1, 0.1])
 
     # THE NEXT POSITION FOR OUR AGENT
-    def nextPosition(self, action):
+    def nextPosition(self, action): #helps to determine next action of the agent
         if self.determine:
             if action == "up":
                 nextState = (self.state[0] - 1, self.state[1])
@@ -74,7 +74,7 @@ class State:
                 if nextState != (1, 1):
                     return nextState
         return self.state
-    def displayBoard(self):
+    def displayBoard(self):   #displays the board
         self.board[self.state] = 1
         for i in range(0, ROWS):
             print('-------------------')
@@ -142,12 +142,6 @@ def EpsillonGreedyPolicy(Q,epsilon,num_actions):
     return policyFunction
 
  
-def agent():
-    #can move north, south, east, west
-    #can pickup something
-    #can dropoff something
-    #CANNOT OCCUPY THE SAME STATE AS ANOTHER AGENT
-    return
 
 
 
