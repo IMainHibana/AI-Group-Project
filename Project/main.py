@@ -13,7 +13,7 @@ INITIAL_STATE_F = (1, 3) #INITAL STATE OF FEMALE AGENT
 PICKUP=[(3, 5), (4, 2)] #LIST OF PICKUP STATES
 DROP_OFF = [(1, 1), (1, 5), (3, 3), (5, 5)] #LIST OF DROP OFF STATES
 DETERMINISTIC = False
-#easier to make the states a class instead of a regular self susteining function
+#easier to make the states a class instead of a regular self sustaining function
 # our grid as a 2d array
 grid = np.zeros((ROWS, COLS), dtype='i,i')
 for i in range(0, ROWS):
@@ -26,6 +26,8 @@ class State:  #class for the states, to have a better idea of how they're being 
         self.board = np.zeros([ROWS,COLS])
         self.board[1,1] = -1
         self.state = state
+        self.canDrop = False
+        self.canPickUp = False
         self.isEnd = False
         self.determine = DETERMINISTIC
     def giveReward(self):       #adds the rewards to each state
@@ -124,6 +126,38 @@ class Agent:
                     action = n
                     maxReward = reward
             return action
+    def takeAct(self,action):
+        pos = self.State.nextPosition(action)
+        return State(state=pos)
+    def end(self):
+        self.states=[]
+        self.State = State()
+        i
+        return True
+        #need to add an end condition here
+    def test(self, rounds = 10):
+        n = 0
+        while n  < rounds:
+            if self.State.isEnd:
+                reward = self.State.giveReward()
+                for a in self.actions:
+                    self.Q_Values[self.State.state][a] = reward
+                print("End Reward: ", reward)
+                for s in reversed(self.states):
+                    current_q_val = self.Q_Values[s[0]][s[1]]
+                    reward = current_q_val + self.lr * (self.gamma*reward - current_q_val)
+                    self.Q_Values[s[0]][s[1]] = round(reward, 3)
+                self.end()
+                n+=1
+            else:
+                action = self.chooseAct()
+                self.states.append([(self.State.state), action])
+                self.State = self.takeAct(action)
+                self.State.isinDropOff()
+                self.isEnd = self.State.isEnd
+
+
+
 
 
 
