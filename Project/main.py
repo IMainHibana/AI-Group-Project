@@ -30,6 +30,7 @@ class State:  #class for the states, to have a better idea of how they're being 
         self.canPickUp = False
         self.isEnd = False
         self.determine = DETERMINISTIC
+        #self.State.state prints out the position in the grid
     def giveReward(self):       #adds the rewards to each state
         if self.state in DROP_OFF:
             return 13
@@ -137,7 +138,7 @@ class Agent:
         #need to add an end condition here
     def test(self, rounds = 10):
         n = 0
-        while n  < rounds:
+        while n < rounds:
             if self.State.isEnd:
                 reward = self.State.giveReward()
                 for a in self.actions:
@@ -182,5 +183,11 @@ def EpsillonGreedyPolicy(Q,epsilon,num_actions):
 
 
 
+if __name__ == "__main__":
 
+
+    #commented these out because I need to make separate things where they have different starting points
+    #but this is the main function where we're making our calls
+    #male = Agent()
+    #Female = Agent()
 
