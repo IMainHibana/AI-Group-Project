@@ -1,3 +1,4 @@
+from concurrent.futures import thread
 import itertools
 import matplotlib
 import matplotlib.style
@@ -5,6 +6,7 @@ import numpy as np
 import pandas as pd
 import random
 import matplotlib.pyplot as plt
+import threading
 
 import sys
 ROWS = 5   #ROWS IN WORLD
@@ -193,20 +195,29 @@ class Display:
         print(self.grid)
         #plt.imshow(self.grid, cmap='gray')
         #plt.show()
+
+#Functions to test multi threading
+def print_1():
+    for i in range(0, 100):
+        print(i)
+def print_2():
+    for i in range(100, 200):
+        print(i)
+
 class main():
-    start = Display()
-    start.start()
+    #just have to assign a function to target, if arguments needed to be passed: use ,arg = (10,)
+    t1 = threading.Thread(target = print_1)
+    t2 = threading.Thread(target = print_2)
+
+    t1.start()
+    t2.start()
+
+    t1.join()
+    t2.join()
 
 
 
 
 
 
-if __name__ == "__main__":
-
-
-    #commented these out because I need to make separate things where they have different starting points
-    #but this is the main function where we're making our calls
-    #male = Agent()
-    #Female = Agent()
 
