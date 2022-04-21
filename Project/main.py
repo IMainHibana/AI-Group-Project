@@ -4,6 +4,7 @@ import matplotlib.style
 import numpy as np
 import pandas as pd
 import random
+import matplotlib.pyplot as plt
 
 import sys
 ROWS = 5   #ROWS IN WORLD
@@ -21,6 +22,7 @@ for i in range(0, ROWS):
         grid[i][j] = (i+1, j+1)
 
 print(grid)
+
 class State:  #class for the states, to have a better idea of how they're being maintained
     def __init__(self, state=INITIAL_STATE_M):
         self.board = np.zeros([ROWS,COLS])
@@ -141,7 +143,24 @@ def EpsillonGreedyPolicy(Q,epsilon,num_actions):
         return action_probabilities
     return policyFunction
 
- 
+class Display:
+    def __init__(self):
+        pass
+        self.grid = grid
+        self.initial_male = (5, 3) 
+        self.initial_female = (1, 3) 
+        self.pickup_loc =[(3, 5), (4, 2)] 
+        self.drop_loc = [(1, 1), (1, 5), (3, 3), (5, 5)] 
+    
+    def start(self):
+        plt.rcParams["figure.figsize"] = [7.00, 3.50]
+        plt.rcParams["figure.autolayout"] = True
+        print(self.grid)
+        #plt.imshow(self.grid, cmap='gray')
+        #plt.show()
+class main():
+    start = Display()
+    start.start()
 
 
 
