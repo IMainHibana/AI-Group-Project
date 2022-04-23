@@ -7,7 +7,7 @@ WINDOW_HEIGHT = 400
 WINDOW_WIDTH = 400
 
 
-def main():
+def pyGameGrid():
   global SCREEN, CLOCK
   pygame.init()
   SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -30,5 +30,3 @@ def drawGrid():
       for y in range(0, WINDOW_HEIGHT, blockSize):
           rect = pygame.Rect(x, y, blockSize, blockSize)
           pygame.draw.rect(SCREEN, BLACK, rect, 1)
-
-main()
