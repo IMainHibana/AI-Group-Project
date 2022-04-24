@@ -8,6 +8,8 @@ import random
 import matplotlib.pyplot as plt
 import threading
 
+import pyGame
+
 import sys
 ROWS = 5   #ROWS IN WORLD
 COLS = 5 #COLUMNS IN WORLD
@@ -17,13 +19,6 @@ PICKUP=[(3, 5), (4, 2)] #LIST OF PICKUP STATES
 DROP_OFF = [(1, 1), (1, 5), (3, 3), (5, 5)] #LIST OF DROP OFF STATES
 DETERMINISTIC = False
 #easier to make the states a class instead of a regular self sustaining function
-# our grid as a 2d array
-grid = np.zeros((ROWS, COLS), dtype='i,i')
-for i in range(0, ROWS):
-    for j in range(0, COLS):
-        grid[i][j] = (i+1, j+1)
-
-print(grid)
 
 class State:  #class for the states, to have a better idea of how they're being maintained
     def __init__(self, state=INITIAL_STATE_M):
@@ -207,8 +202,8 @@ class main():
     t1.join()
     t2.join()
 
-
-
+# our visualization using pygame
+pyGame.pyGameGrid()
 
 
 
