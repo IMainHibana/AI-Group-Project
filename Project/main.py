@@ -162,14 +162,6 @@ class Agent:
                 self.isEnd = self.State.isEnd
 
 
-
-
-
-
-
-
-
-
 def EpsillonGreedyPolicy(Q,epsilon,num_actions):
 
     #yes I used gfg
