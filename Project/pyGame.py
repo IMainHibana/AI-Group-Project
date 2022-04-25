@@ -6,12 +6,16 @@ BLACK = (0, 0, 0)
 WHITE = (200, 200, 200)
 WINDOW_HEIGHT = 800
 WINDOW_WIDTH = 800
-ROWS = 5   #ROWS IN WORLD
-COLS = 5 #COLUMNS IN WORLD
+ROWS = 5  # ROWS IN WORLD
+COLS = 5  # COLUMNS IN WORLD
 blockSize = 160  # Set the size of the grid block
 male = pygame.image.load('male.jpeg')
 female = pygame.image.load('female.png')
 IMG_SIZE = (100, 100)
+male_agent = pygame.transform.scale(male, IMG_SIZE)
+female_agent = pygame.transform.scale(female, IMG_SIZE)
+SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+CLOCK = pygame.time.Clock()
 
 # our grid as a 2d array
 grid = np.zeros((ROWS, COLS), dtype='i,i')
@@ -21,15 +25,12 @@ for i in range(0, ROWS):
 
 
 def pyGameGrid():
-    global SCREEN, CLOCK
     pygame.init()
-    SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-    CLOCK = pygame.time.Clock()
     SCREEN.fill(WHITE)
 
     while True:
         drawGrid()
-        starting_pos()
+        moving_male()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -49,7 +50,11 @@ def drawGrid():
             pygame.draw.rect(SCREEN, BLACK, rect, 1)
             # make the number from grid[row][col] into an image
             number_image = number_font.render(number_text, True, BLACK, WHITE)
-            SCREEN.blit(number_image, (x,y))
+            SCREEN.blit(number_image, (x, y))
+            if x == 320 and y == 0:
+                SCREEN.blit(male_agent, (x + 30, y + 30))
+            if x == 320 and y == 640:
+                SCREEN.blit(female_agent, (x + 30, y + 30))
             if row == 4:
                 row = 0
             else:
@@ -57,12 +62,8 @@ def drawGrid():
         col += 1
 
 
-def starting_pos():
-    male_agent = pygame.transform.scale(male, IMG_SIZE)
-    female_agent = pygame.transform.scale(female, IMG_SIZE)
+def moving_male():
     for x in range(0, WINDOW_WIDTH, blockSize):
         for y in range(0, WINDOW_HEIGHT, blockSize):
-            if x == 320 and y == 0:
-                SCREEN.blit(male_agent, (x + 30, y + 30))
-            if x == 320 and y == 640:
-                SCREEN.blit(female_agent, (x + 30, y + 30))
+            x = x
+
