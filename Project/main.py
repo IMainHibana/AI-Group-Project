@@ -38,11 +38,11 @@ class State:  #class for the states, to have a better idea of how they're being 
         #self.State.state prints out the position in the grid
     def giveReward(self):       #adds the rewards to each state
         if self.state in DROP_OFF:
-            return 13
+            return 13     #if in a DROPOFF space, reward the agent 13
         if self.state in PICKUP:
-            return 13
+            return 13  #if the dropoff is in a pickup space, reward the agent 13
         else:
-            return -1
+            return -1 #if in any other space thats not dropoff/pickup, give the agent -1
     def isinDropOff(self):   #this helps to know if an agent has the ability to drop or not
         if (self.state in DROP_OFF):
             self.canDrop = True
@@ -52,7 +52,8 @@ class State:  #class for the states, to have a better idea of how they're being 
 
     def chooseActionProb(self, action):   #makes the probability of the actions knowable
         if action == "up":
-            return np.random.choice(["up", "left", "right"], p=[0.8, 0.1, 0.1])
+            return np.random.choice(["up", "left", "right"], p=[0.8, 0.1, 0.1])   #the opposite action doesn't occur since we'd
+                                                                                  #just go back to the same space and get nowhere
         if action == "down":
             return np.random.choice(["down", "left", "right"], p=[0.8, 0.1, 0.1])
         if action == "left":
@@ -63,6 +64,7 @@ class State:  #class for the states, to have a better idea of how they're being 
     # THE NEXT POSITION FOR OUR AGENT
     def nextPosition(self, action): #helps to determine next action of the agent
         if self.determine:
+            #the following stores the next state into nextState, as a tuple
             if action == "up":
                 nextState = (self.state[0] - 1, self.state[1])
             elif action == "down":
@@ -73,6 +75,7 @@ class State:  #class for the states, to have a better idea of how they're being 
                 nextState = (self.state[0], self.state[1] + 1)
             self.determine = False
         else:
+            #if non-deterministic at the moment, as in the action is random or in multiple possible states at the same time
             action = self.chooseActionProb(action)
             self.determine = True
             nextState = self.nextPosition(action)
@@ -138,7 +141,7 @@ class Agent:
     def end(self):
         self.states=[]
         self.State = State()
-        i
+
         return True
         #need to add an end condition here
     def test(self, rounds = 10):
@@ -158,8 +161,11 @@ class Agent:
             else:
                 action = self.chooseAct()
                 self.states.append([(self.State.state), action])
+                print("Location {} action {}".format(
+                    self.State.state, action))
                 self.State = self.takeAct(action)
                 self.State.isinDropOff()
+                print("next state is: ", self.State.state)
                 self.isEnd = self.State.isEnd
 
 
