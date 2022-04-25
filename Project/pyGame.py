@@ -3,7 +3,7 @@ import sys
 import numpy as np
 
 BLACK = (0, 0, 0)
-WHITE = (200, 200, 200)
+WHITE = (255, 255, 255)
 WINDOW_HEIGHT = 800
 WINDOW_WIDTH = 800
 ROWS = 5  # ROWS IN WORLD
@@ -12,10 +12,12 @@ blockSize = 160  # Set the size of the grid block
 male = pygame.image.load('male.jpeg')
 female = pygame.image.load('female.png')
 package = pygame.image.load('package.png')
+drop_off = pygame.image.load('drop_off.jpeg')
 IMG_SIZE = (100, 100)
 male_agent = pygame.transform.scale(male, IMG_SIZE)
 female_agent = pygame.transform.scale(female, IMG_SIZE)
 box = pygame.transform.scale(package, (30, 30))
+dock = pygame.transform.scale(drop_off, (130, 130))
 SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 CLOCK = pygame.time.Clock()
 
@@ -59,10 +61,18 @@ def drawGrid():
                 SCREEN.blit(female_agent, (x + 30, y + 30))
             if x == 160 and y == 480:
                 for packages in range(10):
-                    SCREEN.blit(box, (x+packages*15, y+packages*10))
+                    SCREEN.blit(box, (x+packages*15, 15+y+packages*10))
             if x == 640 and y == 320:
                 for packages in range(10):
-                    SCREEN.blit(box, (x+packages*15, y+packages*10))
+                    SCREEN.blit(box, (+x+packages*15, 15+y+packages*10))
+            if x == 0 and y == 0:
+                SCREEN.blit(dock, (x+20, y+20))
+            if x == 640 and y == 0:
+                SCREEN.blit(dock, (x + 20, y + 20))
+            if x == 320 and y == 320:
+                SCREEN.blit(dock, (x + 20, y + 20))
+            if x == 640 and y == 640:
+                SCREEN.blit(dock, (x + 20, y + 20))
             if row == 4:
                 row = 0
             else:
