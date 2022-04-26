@@ -1,4 +1,3 @@
-from concurrent.futures import thread
 import itertools
 import matplotlib
 import matplotlib.style
@@ -6,11 +5,9 @@ import numpy as np
 import pandas as pd
 import random
 import matplotlib.pyplot as plt
-import threading
-
 import pyGame
-
 import sys
+
 ROWS = 5   #ROWS IN WORLD
 COLS = 5 #COLUMNS IN WORLD
 INITIAL_STATE_M = (5, 3) #INITIAL STATE OF MALE AGENT
@@ -179,43 +176,20 @@ def EpsillonGreedyPolicy(Q,epsilon,num_actions):
         return action_probabilities
     return policyFunction
 
-class Display:
-    def __init__(self):
+def Prandom(dropoff, pickup):
+    #Pass in dropoff and pickup state (true or false)
+    if(dropoff == True):
         pass
-        self.grid = grid
-        self.initial_male = (5, 3) 
-        self.initial_female = (1, 3) 
-        self.pickup_loc =[(3, 5), (4, 2)] 
-        self.drop_loc = [(1, 1), (1, 5), (3, 3), (5, 5)] 
-    
-    def start(self):
-        plt.rcParams["figure.figsize"] = [7.00, 3.50]
-        plt.rcParams["figure.autolayout"] = True
-        print(self.grid)
-        #plt.imshow(self.grid, cmap='gray')
-        #plt.show()
-
-#Functions to test multi threading
-def print_1():
-    for i in range(0, 100):
-        i = i
-def print_2():
-    for i in range(100, 200):
-        i = i
-
+    elif(pickup == True):
+        pass
+    else:
+        pass
 class main():
-    #just have to assign a function to target, if arguments needed to be passed: use ,arg = (10,)
-    t1 = threading.Thread(target = print_1)
-    t2 = threading.Thread(target = print_2)
-
-    t1.start()
-    t2.start()
-
-    t1.join()
-    t2.join()
-
 # our visualization using pygame
-pyGame.pyGameGrid()
+    
+    male = Agent()
+
+    #pyGame.pyGameGrid()
 
 
 
