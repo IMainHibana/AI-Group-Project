@@ -1,3 +1,4 @@
+from cmath import exp
 import itertools
 import matplotlib
 import matplotlib.style
@@ -46,7 +47,38 @@ class Game:
                 elif(turn == "Male"):
                     Prandom(self.male)
                     turn = "Female"
+        
+        elif (experiment == "1b"):
+            for i in range(0, 500):
+                if(turn == "Female"):
+                    Prandom(self.female)
+                    turn = "Male"
+                elif(turn == "Male"):
+                    Prandom(self.male)
+                    turn = "Female"
+            for i in range(0, 7500):
+                if(turn == "Female"):
+                    Pgreedy(self.female)
+                    turn = "Male"
+                elif(turn == "Male"):
+                    Pgreedy(self.male)
+                    turn = "Female"
 
+        elif (experiment == "1c"):
+            for i in range(0, 500):
+                if(turn == "Female"):
+                    Prandom(self.female)
+                    turn = "Male"
+                elif(turn == "Male"):
+                    Prandom(self.male)
+                    turn = "Female"
+            for i in range(0, 7500):
+                if(turn == "Female"):
+                    Pexploit(self.female)
+                    turn = "Male"
+                elif(turn == "Male"):
+                    Pexploit(self.male)
+                    turn = "Female"
        
 #Agent class used for both male and female, differentiate between the two by the starting initial state
 class Agent:
@@ -182,6 +214,14 @@ def Prandom(agent):
             possible_directions.remove(choice)
             choice = np.random.choice(possible_directions)
             agent_action.chooseActionProb(choice, agent)
+
+#Second policy 
+def Pexploit(agent):
+    pass
+
+#Third policy
+def Pgreedy(agent):
+    pass
 
 class main():
     #Choose the first experiment
