@@ -15,13 +15,14 @@ INITIAL_STATE_F = (1, 3) #INITAL STATE OF FEMALE AGENT
 PICKUP=[(3, 5), (4, 2)] #LIST OF PICKUP STATES
 DROP_OFF = [(1, 1), (1, 5), (3, 3), (5, 5)] #LIST OF DROP OFF STATES
 DETERMINISTIC = False
-#easier to make the states a class instead of a regular self sustaining function
+#easier to make the states a class instead of a regular self-sustaining function
 
 # our grid as a 2d array
 grid = np.zeros((ROWS, COLS), dtype='i,i')
 for i in range(0, ROWS):
     for j in range(0, COLS):
         grid[i][j] = (i+1, j+1)
+
 
 class State:  #class for the states, to have a better idea of how they're being maintained
     def __init__(self, state=INITIAL_STATE_M):
@@ -33,6 +34,7 @@ class State:  #class for the states, to have a better idea of how they're being 
         self.isEnd = False
         self.determine = DETERMINISTIC
         #self.State.state prints out the position in the grid
+
     def giveReward(self):       #adds the rewards to each state
         if self.state in DROP_OFF:
             return 13     #if in a DROPOFF space, reward the agent 13
@@ -40,9 +42,11 @@ class State:  #class for the states, to have a better idea of how they're being 
             return 13  #if the dropoff is in a pickup space, reward the agent 13
         else:
             return -1 #if in any other space thats not dropoff/pickup, give the agent -1
+
     def isinDropOff(self):   #this helps to know if an agent has the ability to drop or not
         if (self.state in DROP_OFF):
             self.canDrop = True
+
     def isinPickUp(self):    #this helps to know if an agent can pick up or not
         if (self.state in PICKUP):
             self.canPickUp = True
@@ -72,7 +76,8 @@ class State:  #class for the states, to have a better idea of how they're being 
                 nextState = (self.state[0], self.state[1] + 1)
             self.determine = False
         else:
-            #if non-deterministic at the moment, as in the action is random or in multiple possible states at the same time
+            # if non-deterministic at the moment
+            # as in the action is random or in multiple possible states at the same time
             action = self.chooseActionProb(action)
             self.determine = True
             nextState = self.nextPosition(action)
@@ -82,6 +87,7 @@ class State:  #class for the states, to have a better idea of how they're being 
                 if nextState != (1, 1):
                     return nextState
         return self.state
+
     def displayBoard(self):   #displays the board
         self.board[self.state] = 1
         for i in range(0, ROWS):
@@ -124,7 +130,6 @@ class Agent:
         if np.random.uniform(0,1)<=self.exp_rate:
             action = np.random.choice(self.actions)
         else:
-
             for n in self.actions:
                 current_position = self.State.state
                 reward = self.Q_Values[current_position][n]
@@ -132,15 +137,18 @@ class Agent:
                     action = n
                     maxReward = reward
             return action
-    def takeAct(self,action):
+
+    def takeAct(self, action):
         pos = self.State.nextPosition(action)
         return State(state=pos)
+
     def end(self):
         self.states=[]
         self.State = State()
 
         return True
         #need to add an end condition here
+
     def test(self, rounds = 10):
         n = 0
         while n < rounds:
@@ -166,7 +174,7 @@ class Agent:
                 self.isEnd = self.State.isEnd
 
 
-def EpsillonGreedyPolicy(Q,epsilon,num_actions):
+def EpsillonGreedyPolicy(Q, epsilon, num_actions):
 
     #yes I used gfg
     def policyFunction(state):
@@ -176,20 +184,24 @@ def EpsillonGreedyPolicy(Q,epsilon,num_actions):
         return action_probabilities
     return policyFunction
 
+
 def Prandom(dropoff, pickup):
     #Pass in dropoff and pickup state (true or false)
-    if(dropoff == True):
+    if dropoff is True:
         pass
-    elif(pickup == True):
+    elif pickup is True:
         pass
     else:
         pass
-class main():
-# our visualization using pygame
-    
-    male = Agent()
 
-    #pyGame.pyGameGrid()
+
+def main():
+    male = Agent()
+    male.test()
+
+
+# our visualization using pygame
+pyGame.pyGameGrid()
 
 
 
