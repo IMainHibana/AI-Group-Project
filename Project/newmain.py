@@ -15,6 +15,7 @@ INITIAL_STATE_M = (5, 3) #INITIAL STATE OF MALE AGENT
 INITIAL_STATE_F = (1, 3) #INITAL STATE OF FEMALE AGENT
 PICKUP=[(3, 5), (4, 2)] #LIST OF PICKUP STATES
 DROP_OFF = [(1, 1), (1, 5), (3, 3), (5, 5)] #LIST OF DROP OFF STATES
+
 #easier to make the states a class instead of a regular self sustaining function
 
 #initiate the game board for each experiment
@@ -227,7 +228,10 @@ class main():
     #Choose the first experiment
     game_1a = Game("1a")
     print(game_1a.female.all_actions)
-    
+    female_all_moves = game_1a.female.all_actions
+
+# our visualization using pygame
+pyGame.pyGameGrid(main.female_all_moves)
 
 
     

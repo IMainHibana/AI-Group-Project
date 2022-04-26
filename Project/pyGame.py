@@ -28,25 +28,45 @@ for i in range(0, ROWS):
         grid[i][j] = (i+1, j+1)
 
 
-def pyGameGrid():
+def pyGameGrid(moves):
     pygame.init()
     SCREEN.fill(WHITE)
+    female_x = 320
+    female_y = 640
+    f_x_change = 0
+    f_y_change = 0
 
     while True:
-        drawGrid()
-        moving_male()
+        pyGrid()
+        SCREEN.blit(female_agent, (female_x, female_y))
+        for f_moves in moves:
+            if f_moves == 'left':
+                f_x_change -= 160
+            if f_moves == 'right':
+                f_x_change += 160
+            if f_moves == 'up':
+                f_y_change += 160
+            if f_moves == 'down':
+                f_y_change -= 160
+            if female_x + f_x_change > 800 or female_y + f_y_change > 800:
+                female_x += 0
+                female_y += 0
+            else:
+                female_x += f_x_change
+                female_y += f_y_change
+            SCREEN.blit(female_agent, (female_x, female_y))
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-
         pygame.display.update()
 
 
-def drawGrid():
+def pyGrid():
     number_font = pygame.font.SysFont(None, 22)  # Default font, Size 16
     number_image = number_font.render("8", True, BLACK, WHITE)  # Number 8
-    row,col = 0, 0
+    row, col = 0, 0
     for x in range(0, WINDOW_WIDTH, blockSize):
         for y in range(0, WINDOW_HEIGHT, blockSize):
             number_text = str(grid[row][col])
@@ -55,33 +75,22 @@ def drawGrid():
             # make the number from grid[row][col] into an image
             number_image = number_font.render(number_text, True, BLACK, WHITE)
             SCREEN.blit(number_image, (x, y))
-            if x == 320 and y == 0:
-                SCREEN.blit(male_agent, (x + 30, y + 30))
-            if x == 320 and y == 640:
-                SCREEN.blit(female_agent, (x + 30, y + 30))
-            if x == 160 and y == 480:
-                for packages in range(10):
-                    SCREEN.blit(box, (x+packages*15, 15+y+packages*10))
-            if x == 640 and y == 320:
-                for packages in range(10):
-                    SCREEN.blit(box, (+x+packages*15, 15+y+packages*10))
-            if x == 0 and y == 0:
-                SCREEN.blit(dock, (x+20, y+20))
-            if x == 640 and y == 0:
-                SCREEN.blit(dock, (x + 20, y + 20))
-            if x == 320 and y == 320:
-                SCREEN.blit(dock, (x + 20, y + 20))
-            if x == 640 and y == 640:
-                SCREEN.blit(dock, (x + 20, y + 20))
+            SCREEN.blit(dock, (20, 20))
+            SCREEN.blit(dock, (640 + 20, 0 + 20))
+            SCREEN.blit(dock, (320 + 20, 320 + 20))
+            SCREEN.blit(dock, (640 + 20, 640 + 20))
+
+            for packages in range(10):
+                SCREEN.blit(box, (160 + packages * 15, 15 + 480 + packages * 10))
+
+            for packages in range(10):
+                SCREEN.blit(box, (640 + packages * 15, 15 + 320 + packages * 10))
+
+            SCREEN.blit(male_agent, (320 + 30, 0 + 30))
+
             if row == 4:
                 row = 0
             else:
                 row += 1
         col += 1
-
-
-def moving_male():
-    for x in range(0, WINDOW_WIDTH, blockSize):
-        for y in range(0, WINDOW_HEIGHT, blockSize):
-            x = x
 
