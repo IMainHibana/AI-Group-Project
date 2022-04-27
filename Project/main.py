@@ -174,14 +174,54 @@ class Agent:
         self.carrying = False
 
         self.Q_values = {}
-        for i in range(BOARD_ROWS):
-            for j in range(BOARD_COLS):
+        for i in range(ROWS):
+            for j in range(COLS):
                 self.Q_values[(i, j)] = {}
-                for a in self.actions:
+                for a in self.all_actions:
                     self.Q_values[(i, j)][a] = 0 
 
         #Each agent have a set of possible actions from the Action class
         self.possible_action = Action(self)
+
+    def SARSA(self):
+        epsilon = 0.9
+        max_steps = 8000
+        total_eps = 10000
+        alpha = 0.3
+        gamma = 0.5
+        SARSA_Q = np.zeros(5, 5)
+        # Creating full Q-table for all cells
+        self.q_table = pd.DataFrame(columns=self.possible_actions, dtype=np.float64)
+        # Creating Q-table for cells of the final route
+        self.q_table_final = pd.DataFrame(columns=self.possible_actions, dtype=np.float64)
+
+        # function to choose next action
+        def choose_action(state):
+            action = 0
+            if np.random.uniform(0,1) < epsilon:
+                action = random.choice(self.possible_action)
+            else:
+                action = np.argmax(SARSA_Q[state, :])
+            return action
+
+        # function to learn the Q-Value
+        def update(state, state2, reward, action, action2):
+            predict = SARSA_Q[state, action]
+            target = reward + gamma + SARSA_Q[state2, action2]
+            SARSA_Q[state, action] = SARSA_Q[state, action] + alpha * (target - predict)
+
+        # adding to Q-tables new states
+        def check_state_exist(state):
+            if state not in self.q_table.index:
+                self.q_table = self.q_table.append(pd.Series([0] * len(self.actions), index=self.q_table.columns, name=state))
+
+
+
+
+
+
+
+
 
 #Contain all possible action an agent could take
 class Action:  
@@ -215,8 +255,6 @@ class Action:
         elif action == "right":
             self.nextPosition(action, agent) 
             agent.all_actions.append("right")
-
-    def chooseAction(self, Agent):
       
 
     #Actually checking to see if the future action is overlaping with other agent or out of range
@@ -320,6 +358,7 @@ def Pexploit(agent):
 def Pgreedy(agent):
     pass
 
+
 class main():
     #Choose the first experiment
     game_1a = Game("1a")
@@ -329,6 +368,7 @@ class main():
     print(female_all_moves)
     print("Male moves:")
     print(male_all_moves)
+
 
 
 # our visualization using pygame
