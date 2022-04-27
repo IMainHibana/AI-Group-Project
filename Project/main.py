@@ -227,9 +227,12 @@ def Pgreedy(agent):
 class main():
     #Choose the first experiment
     game_1a = Game("1a")
-    print(game_1a.female.all_actions)
     female_all_moves = game_1a.female.all_actions
     male_all_moves = game_1a.male.all_actions
+    print("Female moves:")
+    print(female_all_moves)
+    print("Male moves:")
+    print(male_all_moves)
 
 
 # our visualization using pygame
