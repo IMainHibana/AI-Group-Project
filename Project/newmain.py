@@ -229,9 +229,10 @@ class main():
     game_1a = Game("1a")
     print(game_1a.female.all_actions)
     female_all_moves = game_1a.female.all_actions
+    male_all_moves = game_1a.male.all_actions
 
 # our visualization using pygame
-pyGame.pyGameGrid(main.female_all_moves)
+pyGame.pyGameGrid(main.female_all_moves, main.male_all_moves)
 
 
     
