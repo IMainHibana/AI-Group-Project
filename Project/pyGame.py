@@ -28,7 +28,7 @@ for i in range(0, ROWS):
         grid[i][j] = (i+1, j+1)
 
 
-def pyGameGrid(fmoves, mmoves):
+def pyGameGrid(f_moves, m_moves):
     pygame.init()
     SCREEN.fill(WHITE)
     female_x = 320
@@ -50,18 +50,18 @@ def pyGameGrid(fmoves, mmoves):
     dropoff4 = 0
 
     while True:
-        pyGrid()
+        drawGrid()
         SCREEN.blit(female_agent, (female_x, female_y))
         SCREEN.blit(male_agent, (male_x, male_y))
         for event in pygame.event.get():
-            for f_moves in fmoves:
-                if f_moves == 'left':
+            for i in range(0, len(f_moves)-1):
+                if f_moves[i] == 'left':
                     f_x_change -= 160
-                if f_moves == 'right':
+                if f_moves[i] == 'right':
                     f_x_change += 160
-                if f_moves == 'up':
+                if f_moves[i] == 'up':
                     f_y_change += 160
-                if f_moves == 'down':
+                if f_moves[i] == 'down':
                     f_y_change -= 160
                 if female_x + f_x_change > 800 or female_y + f_y_change > 800:
                     female_x += 0
@@ -94,18 +94,13 @@ def pyGameGrid(fmoves, mmoves):
                         for packages in range(dropoff4):
                             SCREEN.blit(box, (160 + packages * 15, 15 + 480 + packages * 10))
 
-                SCREEN.blit(female_agent, (female_x, female_y))
-
-            pygame.display.update()
-
-            for m_moves in mmoves:
-                if m_moves == 'left':
+                if m_moves[i] == 'left':
                     m_x_change -= 160
-                if m_moves == 'right':
+                if m_moves[i] == 'right':
                     m_x_change += 160
-                if m_moves == 'up':
+                if m_moves[i] == 'up':
                     m_y_change += 160
-                if m_moves == 'down':
+                if m_moves[i] == 'down':
                     m_y_change -= 160
                 if male_x + m_x_change > 800 or male_y + m_y_change > 800:
                     male_x += 0
@@ -138,16 +133,17 @@ def pyGameGrid(fmoves, mmoves):
                         for packages in range(dropoff4):
                             SCREEN.blit(box, (160 + packages * 15, 15 + 480 + packages * 10))
 
+                SCREEN.blit(female_agent, (female_x, female_y))
                 SCREEN.blit(male_agent, (male_x, male_y))
-
-            pygame.display.update()
 
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
+            pygame.display.update()
 
-def pyGrid():
+
+def drawGrid():
     number_font = pygame.font.SysFont(None, 22)  # Default font, Size 16
     number_image = number_font.render("8", True, BLACK, WHITE)  # Number 8
     row, col = 0, 0
@@ -163,7 +159,6 @@ def pyGrid():
             SCREEN.blit(dock, (640 + 20, 0 + 20))
             SCREEN.blit(dock, (320 + 20, 320 + 20))
             SCREEN.blit(dock, (640 + 20, 640 + 20))
-
             if row == 4:
                 row = 0
             else:
