@@ -89,6 +89,12 @@ class Agent:
         self.opposite_agent_loc = (-1, -1)
         self.current_pos = initial_state
         self.score = 0
+        self.Q_values = {}
+        for i in range(BOARD_ROWS):
+            for j in range(BOARD_COLS):
+                self.Q_values[(i, j)] = {}
+                for a in self.actions:
+                    self.Q_values[(i, j)][a] = 0 
 
         #Each agent have a set of possible actions from the Action class
         self.possible_action = Action(self)
