@@ -94,6 +94,8 @@ def pyGameGrid(f_moves, m_moves):
                         for packages in range(dropoff4):
                             SCREEN.blit(box, (160 + packages * 15, 15 + 480 + packages * 10))
 
+                SCREEN.blit(female_agent, (female_x, female_y))
+
                 if m_moves[i] == 'left':
                     m_x_change -= 160
                 if m_moves[i] == 'right':
@@ -133,7 +135,6 @@ def pyGameGrid(f_moves, m_moves):
                         for packages in range(dropoff4):
                             SCREEN.blit(box, (160 + packages * 15, 15 + 480 + packages * 10))
 
-                SCREEN.blit(female_agent, (female_x, female_y))
                 SCREEN.blit(male_agent, (male_x, male_y))
 
             if event.type == pygame.QUIT:
