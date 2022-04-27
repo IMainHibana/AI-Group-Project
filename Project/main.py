@@ -11,10 +11,10 @@ import sys
 
 ROWS = 5   #ROWS IN WORLD
 COLS = 5 #COLUMNS IN WORLD
-INITIAL_STATE_M = (5, 3) #INITIAL STATE OF MALE AGENT
-INITIAL_STATE_F = (1, 3) #INITAL STATE OF FEMALE AGENT
-PICKUP=[(3, 5), (4, 2)] #LIST OF PICKUP STATES
-DROP_OFF = [(1, 1), (1, 5), (3, 3), (5, 5)] #LIST OF DROP OFF STATES
+INITIAL_STATE_M = (4, 2) #INITIAL STATE OF MALE AGENT
+INITIAL_STATE_F = (0, 2) #INITAL STATE OF FEMALE AGENT
+PICKUP=[(2, 4), (3, 1)] #LIST OF PICKUP STATES
+DROP_OFF = [(0, 0), (0, 4), (2, 2), (4, 4)] #LIST OF DROP OFF STATES
 
 #easier to make the states a class instead of a regular self sustaining function
 
@@ -128,7 +128,10 @@ class Action:
         elif action == "right":
             self.nextPosition(action, agent) 
             agent.all_actions.append("right")
-    
+
+    def chooseAction(self, Agent):
+      
+
     #Actually checking to see if the future action is overlaping with other agent or out of range
     #If not then action is initiated and recorded
     def nextPosition(self, action, agent): 
