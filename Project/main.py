@@ -15,6 +15,8 @@ INITIAL_STATE_M = (4, 2) #INITIAL STATE OF MALE AGENT
 INITIAL_STATE_F = (0, 2) #INITAL STATE OF FEMALE AGENT
 PICKUP=[(2, 4), (3, 1)] #LIST OF PICKUP STATES
 DROP_OFF = [(0, 0), (0, 4), (2, 2), (4, 4)] #LIST OF DROP OFF STATES
+PICKUP_MAX_QUANT = 10
+DROP_OFF_MAX_QUANT = 5
 
 #easier to make the states a class instead of a regular self sustaining function
 
@@ -23,64 +25,144 @@ class Game:
     def __init__(self, experiment):
         #Initialized starting variables for an empty board
         self.board = np.zeros([ROWS,COLS])
+
+        #Track the current boxes inside of each pickup/dropoff location
+        self.drop_loc1 = 0  #0,0
+        self.drop_loc2 = 0  #0,4
+        self.drop_loc3 = 0  #2,2
+        self.drop_loc4 = 0  #4,4
+        self.pick_loc1 = PICKUP_MAX_QUANT   #2,4
+        self.pick_loc2 = PICKUP_MAX_QUANT   #3,1
+
         self.isEnd = False
+
         self.male = Agent(INITIAL_STATE_M)      #Create two agents M and F
         self.female = Agent(INITIAL_STATE_F)
         self.male.opposite_agent_loc = self.female.current_pos
         self.female.opposite_agent_loc = self.male.current_pos
         turn = "Female"
 
+    def Run(self, experiment):
         #Running experiment 1a
         if (experiment == "1a"):
             #Alternating turns between female and male
             for i in range(0, 500):
                 if(turn == "Female"):
                     Prandom(self.female)
+                    self.drop_action(self.female.current_pos)
+                    self.pickup_action(self.female.current_pos)
+                    if(self.isEnd == True):
+                        break
                     turn = "Male"
                 elif(turn == "Male"):
                     Prandom(self.male)
+                    self.drop_action(self.male.current_pos)
+                    self.pickup_action(self.male.current_pos)
+                    if(self.isEnd == True):
+                        break
                     turn = "Female"
 
             for i in range(0, 7500):
                 if(turn == "Female"):
                     Prandom(self.female)
+                    self.drop_action(self.female.current_pos)
+                    self.pickup_action(self.female.current_pos)
+                    if(self.isEnd == True):
+                        break
                     turn = "Male"
                 elif(turn == "Male"):
                     Prandom(self.male)
+                    self.drop_action(self.male.current_pos)
+                    self.pickup_action(self.male.current_pos)
+                    if(self.isEnd == True):
+                        break
                     turn = "Female"
         
         elif (experiment == "1b"):
             for i in range(0, 500):
                 if(turn == "Female"):
                     Prandom(self.female)
+                    self.drop_action(self.female.current_pos)
+                    self.pickup_action(self.female.current_pos)
+                    if(self.isEnd == True):
+                        break
                     turn = "Male"
                 elif(turn == "Male"):
                     Prandom(self.male)
+                    self.drop_action(self.male.current_pos)
+                    self.pickup_action(self.male.current_pos)
+                    if(self.isEnd == True):
+                        break
                     turn = "Female"
             for i in range(0, 7500):
                 if(turn == "Female"):
                     Pgreedy(self.female)
+                    self.drop_action(self.female.current_pos)
+                    self.pickup_action(self.female.current_pos)
+                    if(self.isEnd == True):
+                        break
                     turn = "Male"
                 elif(turn == "Male"):
                     Pgreedy(self.male)
+                    self.drop_action(self.male.current_pos)
+                    self.pickup_action(self.male.current_pos)
+                    if(self.isEnd == True):
+                        break
                     turn = "Female"
 
         elif (experiment == "1c"):
             for i in range(0, 500):
                 if(turn == "Female"):
                     Prandom(self.female)
+                    self.drop_action(self.female.current_pos)
+                    self.pickup_action(self.female.current_pos)
+                    if(self.isEnd == True):
+                        break
                     turn = "Male"
                 elif(turn == "Male"):
                     Prandom(self.male)
+                    self.drop_action(self.male.current_pos)
+                    self.pickup_action(self.male.current_pos)
+                    if(self.isEnd == True):
+                        break
                     turn = "Female"
             for i in range(0, 7500):
                 if(turn == "Female"):
                     Pexploit(self.female)
+                    self.drop_action(self.female.current_pos)
+                    self.pickup_action(self.female.current_pos)
+                    if(self.isEnd == True):
+                        break
                     turn = "Male"
                 elif(turn == "Male"):
                     Pexploit(self.male)
+                    self.drop_action(self.male.current_pos)
+                    self.pickup_action(self.male.current_pos)
+                    if(self.isEnd == True):
+                        break
                     turn = "Female"
-       
+
+    
+    def pickup_action(self, location):
+        if(location == (2,4)):
+            self.pick_loc1 -= 1
+        elif(location == (3, 1)):
+            self.pick_loc2 -= 1
+
+    def drop_action(self, location):
+        if(location == (0, 0)):
+            self.drop_loc1 += 1
+        elif(location == (0, 4)):
+            self.drop_loc2 += 1
+        elif(location == (2, 2)):
+            self.drop_loc2 -= 1
+        elif(location == (4, 4)):
+            self.drop_loc2 -= 1
+    
+    def check_end(self):
+        if(self.drop_loc1 == 5 and self.drop_loc2 == 5 and self.drop_loc3 == 5 and self.drop_loc4 == 5 and self.pick_loc1 == 0 and self.pick_loc2 == 0):
+            self.isEnd = True
+
 #Agent class used for both male and female, differentiate between the two by the starting initial state
 class Agent:
     def __init__(self, initial_state):
@@ -89,6 +171,8 @@ class Agent:
         self.opposite_agent_loc = (-1, -1)
         self.current_pos = initial_state
         self.score = 0
+        self.carrying = False
+
         self.Q_values = {}
         for i in range(BOARD_ROWS):
             for j in range(BOARD_COLS):
@@ -106,8 +190,11 @@ class Action:
 
     def giveReward(self, drop_or_pick, agent):       #adds the rewards to each state
         if (drop_or_pick == "Dropoff"):
+            agent.carrying = False
             agent.score += 13     #if in a DROPOFF space, reward the agent 13
         if (drop_or_pick == "Pickup"):
+            agent.carrying = True
+
             agent.score += 13  #if the dropoff is in a pickup space, reward the agent 13
         else:
             agent.score -= 1 #if in any other space thats not dropoff/pickup, give the agent -1
@@ -175,7 +262,7 @@ class Action:
         else:
             return False
 
-
+    
 #First policy if pickup and dropoff is available activate those actions, if not pick an action randomly.
 def Prandom(agent):
     agent_action = agent.possible_action
