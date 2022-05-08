@@ -180,10 +180,9 @@ def EpsillonGreedyPolicy(Q, epsilon, num_actions):
     def policyFunction(state):
         action_probabilities = np.ones(num_actions, dtype=float) * epsilon/num_actions
         best_action = np.argmax(Q[state])
-        action_probabilities[best_action] += (1.0 -epsilon)
+        action_probabilities[best_action] += (1.0 - epsilon)
         return action_probabilities
     return policyFunction
-
 
 def Prandom(dropoff, pickup):
     #Pass in dropoff and pickup state (true or false)
