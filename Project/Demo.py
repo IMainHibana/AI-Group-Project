@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 import random
 import matplotlib.pyplot as plt
+np.random.seed(14)
 # import pyGame
 import sys
 
@@ -91,25 +92,26 @@ class Game:
 
     # Check to see what possible moves are available to choose from
     def check_possible_action(self, agent, possible_directions):
+        result_possible_directions = possible_directions.copy()
         if (agent == "F"):
             for direction in possible_directions:
                 temporary_loc = self.F_loc
                 if (direction == "up"):
-                    if (np.array_equal(temporary_loc, self.M_loc) or (
-                            temporary_loc[0] - 1 < 0 or temporary_loc[0] - 1 > 4)):
-                        possible_directions.remove("up")
+                    if (np.array_equal(temporary_loc, self.M_loc) or 
+                            temporary_loc[0] - 1 < 0 or temporary_loc[0] - 1 > 4):
+                        result_possible_directions.remove("up")    
                 elif (direction == "down"):
-                    if (np.array_equal(temporary_loc, self.M_loc) or (
-                            temporary_loc[0] + 1 < 0 or temporary_loc[0] + 1 > 4)):
-                        possible_directions.remove("down")
+                    if (np.array_equal(temporary_loc, self.M_loc) or 
+                            temporary_loc[0] + 1 < 0 or temporary_loc[0] + 1 > 4):
+                        result_possible_directions.remove("down")
                 elif (direction == "left"):
-                    if (np.array_equal(temporary_loc, self.M_loc) or (
-                            temporary_loc[1] - 1 < 0 or temporary_loc[1] - 1 > 4)):
-                        possible_directions.remove("left")
+                    if (np.array_equal(temporary_loc, self.M_loc) or 
+                            (temporary_loc[1] - 1 < 0) or (temporary_loc[1] - 1 > 4)):
+                        result_possible_directions.remove("left")
                 elif (direction == "right"):
-                    if (np.array_equal(temporary_loc, self.M_loc) or (
-                            temporary_loc[1] + 1 < 0 or temporary_loc[1] + 1 > 4)):
-                        possible_directions.remove("right")
+                    if (np.array_equal(temporary_loc, self.M_loc) or 
+                            temporary_loc[1] + 1 < 0 or temporary_loc[1] + 1 > 4):
+                        result_possible_directions.remove("right")
 
         elif (agent == "M"):
             for direction in possible_directions:
@@ -117,22 +119,22 @@ class Game:
                 if (direction == "up"):
                     if (np.array_equal(temporary_loc, self.F_loc) or (
                             temporary_loc[0] - 1 < 0 or temporary_loc[0] - 1 > 4)):
-                        possible_directions.remove("up")
+                        result_possible_directions.remove("up")
                 elif (direction == "down"):
                     if (np.array_equal(temporary_loc, self.F_loc) or (
                             temporary_loc[0] + 1 < 0 or temporary_loc[0] + 1 > 4)):
-                        possible_directions.remove("down")
+                        result_possible_directions.remove("down")
                 elif (direction == "left"):
                     if (np.array_equal(temporary_loc, self.F_loc) or (
                             temporary_loc[1] - 1 < 0 or temporary_loc[1] - 1 > 4)):
-                        possible_directions.remove("left")
+                        result_possible_directions.remove("left")
                 elif (direction == "right"):
                     if (np.array_equal(temporary_loc, self.F_loc) or (
                             temporary_loc[1] + 1 < 0 or temporary_loc[1] + 1 > 4)):
-                        possible_directions.remove("right")
-
-        print(possible_directions)
-        return possible_directions
+                        result_possible_directions.remove("right")
+            
+        print(result_possible_directions)
+        return result_possible_directions
 
     # Check to see if the game has reached final state
     def end_game(self):

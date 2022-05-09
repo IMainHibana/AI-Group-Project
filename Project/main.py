@@ -19,7 +19,7 @@ class main():
                 action = agent_F.Prandom(game, "F")
                 
                 reward += game.action("F", action)
-                print(action)
+                #print(action)
                 game.render()
                
                 if(game.end_game()):
@@ -29,7 +29,7 @@ class main():
             elif (cur_turn == "M"):
                 action = agent_M.Prandom(game, "M")
                 reward += game.action("M", action)
-                print(action)
+                #print(action)
                 game.render()
                 if(game.end_game()):
                     print("HAS REACHED THE END GAME")
