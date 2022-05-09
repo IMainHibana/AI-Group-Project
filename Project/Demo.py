@@ -93,7 +93,6 @@ class Game:
         if (agent == "F"):
             for direction in possible_directions:
                 temporary_loc = self.F_loc
-                print("curr loc: ", temporary_loc)
                 if(direction == "up"):
                     if(np.array_equal(temporary_loc, self.M_loc) or (temporary_loc[0]-1 < 0 or temporary_loc[0]-1 > 4) ):
                         print("removing up")
@@ -114,7 +113,6 @@ class Game:
         elif (agent == "M"):
             for direction in possible_directions:
                 temporary_loc = self.M_loc
-                print("curr loc: ", temporary_loc)
                 if(direction == "up"):
                     if(np.array_equal(temporary_loc, self.F_loc) or (temporary_loc[0]-1 < 0 or temporary_loc[0]-1 > 4) ):
                         print("removing up")
