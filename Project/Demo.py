@@ -105,42 +105,50 @@ class Game:
         result_possible_directions = possible_directions.copy()
         if (agent == "F"):
             for direction in possible_directions:
-                temporary_loc = self.F_loc
+                temporary_loc = self.F_loc.copy()
                 if (direction == "up"):
+                    temporary_loc[0] -= 1
                     if (np.array_equal(temporary_loc, self.M_loc) or 
-                            temporary_loc[0] - 1 < 0 or temporary_loc[0] - 1 > 4):
+                            temporary_loc[0] < 0 or temporary_loc[0] > 4):
                         result_possible_directions.remove("up")    
                 elif (direction == "down"):
+                    temporary_loc[0] += 1
                     if (np.array_equal(temporary_loc, self.M_loc) or 
-                            temporary_loc[0] + 1 < 0 or temporary_loc[0] + 1 > 4):
+                            temporary_loc[0] < 0 or temporary_loc[0] > 4):
                         result_possible_directions.remove("down")
                 elif (direction == "left"):
+                    temporary_loc[1] -= 1
                     if (np.array_equal(temporary_loc, self.M_loc) or 
-                            (temporary_loc[1] - 1 < 0) or (temporary_loc[1] - 1 > 4)):
+                            (temporary_loc[1] < 0) or (temporary_loc[1] > 4)):
                         result_possible_directions.remove("left")
                 elif (direction == "right"):
+                    temporary_loc[1] += 1
                     if (np.array_equal(temporary_loc, self.M_loc) or 
-                            temporary_loc[1] + 1 < 0 or temporary_loc[1] + 1 > 4):
+                            temporary_loc[1] < 0 or temporary_loc[1] > 4):
                         result_possible_directions.remove("right")
 
         elif (agent == "M"):
             for direction in possible_directions:
-                temporary_loc = self.M_loc
+                temporary_loc = self.M_loc.copy()
                 if (direction == "up"):
+                    temporary_loc[0] -= 1
                     if (np.array_equal(temporary_loc, self.F_loc) or (
-                            temporary_loc[0] - 1 < 0 or temporary_loc[0] - 1 > 4)):
+                            temporary_loc[0] < 0 or temporary_loc[0] > 4)):
                         result_possible_directions.remove("up")
                 elif (direction == "down"):
+                    temporary_loc[0] += 1
                     if (np.array_equal(temporary_loc, self.F_loc) or (
-                            temporary_loc[0] + 1 < 0 or temporary_loc[0] + 1 > 4)):
+                            temporary_loc[0] < 0 or temporary_loc[0] > 4)):
                         result_possible_directions.remove("down")
                 elif (direction == "left"):
+                    temporary_loc[1] -= 1
                     if (np.array_equal(temporary_loc, self.F_loc) or (
-                            temporary_loc[1] - 1 < 0 or temporary_loc[1] - 1 > 4)):
+                            temporary_loc[1] < 0 or temporary_loc[1] > 4)):
                         result_possible_directions.remove("left")
                 elif (direction == "right"):
+                    temporary_loc[1] += 1
                     if (np.array_equal(temporary_loc, self.F_loc) or (
-                            temporary_loc[1] + 1 < 0 or temporary_loc[1] + 1 > 4)):
+                            temporary_loc[1] < 0 or temporary_loc[1] > 4)):
                         result_possible_directions.remove("right")
             
         print(result_possible_directions)
@@ -165,10 +173,10 @@ class Game:
         print(self.M_loc)
         self.all_female_locs = np.append(self.all_female_locs, self.F_loc)
         self.all_male_locs = np.append(self.all_male_locs, self.M_loc)
-        print("all female moves:")
-        print(self.all_female_locs)
-        print("all male moves:")
-        print(self.all_male_locs)
+        #print("all female moves:")
+        #print(self.all_female_locs)
+        #print("all male moves:")
+        #print(self.all_male_locs)
         #self.q_values()
 
 
