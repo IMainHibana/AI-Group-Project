@@ -13,13 +13,16 @@ class main():
         agent_F = Demo.Agent(alpha, gamma)
         agent_M = Demo.Agent(alpha, gamma)
 
+
+
         #Exp 1:
-        for i in range(0, 50):
+        for i in range(0, 500):
+            print("=======================================new turn===================================================")
             if (cur_turn == "F"):
                 action = agent_F.Prandom(game, "F")
                 
                 reward += game.action("F", action)
-                print(action)
+                #print(action)
                 game.render()
                
                 if(game.end_game()):

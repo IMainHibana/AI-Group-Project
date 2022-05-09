@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 import random
 import matplotlib.pyplot as plt
+np.random.seed(14)
 # import pyGame
 import sys
 from array import *
@@ -16,7 +17,10 @@ INITIAL_STATE_M = np.array([4, 2])  # INITIAL STATE OF MALE AGENT
 INITIAL_STATE_F = np.array([0, 2])  # INITAL STATE OF FEMALE AGENT
 PICKUP = np.array([[2, 4], [3, 1]])  # LIST OF PICKUP STATES
 DROP_OFF = np.array([[0, 0], [0, 4], [2, 2], [4, 4]])  # LIST OF DROP OFF STATES
+<<<<<<< HEAD
 x = [[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' ']]
+=======
+>>>>>>> bfc9b8e8030b27dc78b1522a4d3883c6cc358724
 
 class Game:
     def __init__(self):
@@ -33,6 +37,9 @@ class Game:
         self.end_board[0, 4] = 5
         self.end_board[2, 2] = 5
         self.end_board[4, 4] = 5
+
+        self.all_female_locs = np.array([0, 2])
+        self.all_male_locs = np.array([4, 2])
 
         # All possible moves
         self.moves = ("up", "down", "left", "right", "pickup", "dropoff")
@@ -81,9 +88,17 @@ class Game:
             return -1
 
         elif action == "pickup":
+            if (agent == "F"):
+                self.all_female_locs = np.append(self.all_female_locs, ["pickup", ])
+            elif(agent == "M"):
+                self.all_male_locs = np.append(self.all_male_locs, ["pickup", ])
             return 13
 
         elif action == "dropoff":
+            if (agent == "F"):
+                self.all_female_locs = np.append(self.all_female_locs, ["dropoff", ])
+            elif (agent == "M"):
+                self.all_male_locs = np.append(self.all_male_locs, ["dropoff", ])
             return 13
 
         else:
@@ -92,48 +107,61 @@ class Game:
 
     # Check to see what possible moves are available to choose from
     def check_possible_action(self, agent, possible_directions):
+        result_possible_directions = possible_directions.copy()
         if (agent == "F"):
             for direction in possible_directions:
-                temporary_loc = self.F_loc
+                temporary_loc = self.F_loc.copy()
                 if (direction == "up"):
-                    if (np.array_equal(temporary_loc, self.M_loc) or (
-                            temporary_loc[0] - 1 < 0 or temporary_loc[0] - 1 > 4)):
-                        possible_directions.remove("up")
+                    temporary_loc[0] -= 1
+                    if (np.array_equal(temporary_loc, self.M_loc) or 
+                            temporary_loc[0] < 0 or temporary_loc[0] > 4):
+                        result_possible_directions.remove("up")    
                 elif (direction == "down"):
-                    if (np.array_equal(temporary_loc, self.M_loc) or (
-                            temporary_loc[0] + 1 < 0 or temporary_loc[0] + 1 > 4)):
-                        possible_directions.remove("down")
+                    temporary_loc[0] += 1
+                    if (np.array_equal(temporary_loc, self.M_loc) or 
+                            temporary_loc[0] < 0 or temporary_loc[0] > 4):
+                        result_possible_directions.remove("down")
                 elif (direction == "left"):
-                    if (np.array_equal(temporary_loc, self.M_loc) or (
-                            temporary_loc[1] - 1 < 0 or temporary_loc[1] - 1 > 4)):
-                        possible_directions.remove("left")
+                    temporary_loc[1] -= 1
+                    if (np.array_equal(temporary_loc, self.M_loc) or 
+                            (temporary_loc[1] < 0) or (temporary_loc[1] > 4)):
+                        result_possible_directions.remove("left")
                 elif (direction == "right"):
-                    if (np.array_equal(temporary_loc, self.M_loc) or (
-                            temporary_loc[1] + 1 < 0 or temporary_loc[1] + 1 > 4)):
-                        possible_directions.remove("right")
+                    temporary_loc[1] += 1
+                    if (np.array_equal(temporary_loc, self.M_loc) or 
+                            temporary_loc[1] < 0 or temporary_loc[1] > 4):
+                        result_possible_directions.remove("right")
 
         elif (agent == "M"):
             for direction in possible_directions:
-                temporary_loc = self.M_loc
+                temporary_loc = self.M_loc.copy()
                 if (direction == "up"):
+                    temporary_loc[0] -= 1
                     if (np.array_equal(temporary_loc, self.F_loc) or (
-                            temporary_loc[0] - 1 < 0 or temporary_loc[0] - 1 > 4)):
-                        possible_directions.remove("up")
+                            temporary_loc[0] < 0 or temporary_loc[0] > 4)):
+                        result_possible_directions.remove("up")
                 elif (direction == "down"):
+                    temporary_loc[0] += 1
                     if (np.array_equal(temporary_loc, self.F_loc) or (
-                            temporary_loc[0] + 1 < 0 or temporary_loc[0] + 1 > 4)):
-                        possible_directions.remove("down")
+                            temporary_loc[0] < 0 or temporary_loc[0] > 4)):
+                        result_possible_directions.remove("down")
                 elif (direction == "left"):
+                    temporary_loc[1] -= 1
                     if (np.array_equal(temporary_loc, self.F_loc) or (
-                            temporary_loc[1] - 1 < 0 or temporary_loc[1] - 1 > 4)):
-                        possible_directions.remove("left")
+                            temporary_loc[1] < 0 or temporary_loc[1] > 4)):
+                        result_possible_directions.remove("left")
                 elif (direction == "right"):
+                    temporary_loc[1] += 1
                     if (np.array_equal(temporary_loc, self.F_loc) or (
-                            temporary_loc[1] + 1 < 0 or temporary_loc[1] + 1 > 4)):
-                        possible_directions.remove("right")
+                            temporary_loc[1] < 0 or temporary_loc[1] > 4)):
+                        result_possible_directions.remove("right")
+            
+        print(result_possible_directions)
+        return result_possible_directions
 
-        print(possible_directions)
-        return possible_directions
+    def q_values(self, state_size, action_size = 6):
+        q_table = np.zeros((state_size, action_size))
+        print(q_table)
 
     # Check to see if the game has reached final state
     def end_game(self):
@@ -148,6 +176,7 @@ class Game:
         print(self.F_loc)
         print("Male location")
         print(self.M_loc)
+<<<<<<< HEAD
         #print(len(x)) testing
         #print(len(x[0])) testing
         #purge the grind
@@ -174,6 +203,15 @@ class Game:
              "|"+x[4][0]+"|"+x[4][1]+"|"+x[4][2]+"|"+x[4][3]+"|"+x[4][4]+"|\n"
         )
 
+=======
+        self.all_female_locs = np.append(self.all_female_locs, self.F_loc)
+        self.all_male_locs = np.append(self.all_male_locs, self.M_loc)
+        #print("all female moves:")
+        #print(self.all_female_locs)
+        #print("all male moves:")
+        #print(self.all_male_locs)
+        #self.q_values()
+>>>>>>> bfc9b8e8030b27dc78b1522a4d3883c6cc358724
 
 
 class Agent:
@@ -211,6 +249,7 @@ class Agent:
             choices = game.check_possible_action(agent, possible_directions)
             choice = np.random.choice(choices)
             return choice
+
 
 
 
