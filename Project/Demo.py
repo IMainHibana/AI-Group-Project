@@ -14,7 +14,7 @@ import sys
 INITIAL_STATE_M = np.array([4, 2])  # INITIAL STATE OF MALE AGENT
 INITIAL_STATE_F = np.array([0, 2])  # INITAL STATE OF FEMALE AGENT
 PICKUP = np.array([[2, 4], [3, 1]])  # LIST OF PICKUP STATES
-DROP_OFF = np.array([[0, 0], [0, 5], [2, 2], [4, 4]])  # LIST OF DROP OFF STATES
+DROP_OFF = np.array([[0, 0], [0, 4], [2, 2], [4, 4]])  # LIST OF DROP OFF STATES
 
 
 class Game:
@@ -130,6 +130,7 @@ class Game:
                     if (np.array_equal(temporary_loc, self.F_loc) or (
                             temporary_loc[1] + 1 < 0 or temporary_loc[1] + 1 > 4)):
                         possible_directions.remove("right")
+
         print(possible_directions)
         return possible_directions
 
@@ -156,6 +157,7 @@ class Agent:
 
     # Prandom function call
     def Prandom(self, game, agent):
+        self.agent = agent
         if (agent == "F"):
             self.current_loc = game.F_loc
         elif (agent == "M"):
@@ -182,5 +184,8 @@ class Agent:
             choices = game.check_possible_action(agent, possible_directions)
             choice = np.random.choice(choices)
             return choice
+
+
+
 
 
