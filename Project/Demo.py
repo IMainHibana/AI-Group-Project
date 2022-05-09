@@ -10,12 +10,13 @@ import random
 import matplotlib.pyplot as plt
 # import pyGame
 import sys
+from array import *
 
 INITIAL_STATE_M = np.array([4, 2])  # INITIAL STATE OF MALE AGENT
 INITIAL_STATE_F = np.array([0, 2])  # INITAL STATE OF FEMALE AGENT
 PICKUP = np.array([[2, 4], [3, 1]])  # LIST OF PICKUP STATES
 DROP_OFF = np.array([[0, 0], [0, 4], [2, 2], [4, 4]])  # LIST OF DROP OFF STATES
-
+x = [[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' ']]
 
 class Game:
     def __init__(self):
@@ -147,6 +148,32 @@ class Game:
         print(self.F_loc)
         print("Male location")
         print(self.M_loc)
+        #print(len(x)) testing
+        #print(len(x[0])) testing
+        #purge the grind
+        for row in range(0, 5):
+            for col in range(0, 5):
+                x[row][col] = ' ';
+        #put in drop off
+        [0, 0], [0, 4], [2, 2], [4, 4]
+        x[0][0]= 'D';
+        x[0][4]= 'D';
+        x[2][2]= 'D';
+        x[4][4]= 'D';
+        #put in pick up
+        x[2][4]= 'P';
+        x[3][1]= 'P';
+        #put in the F and M agents
+        x[self.F_loc[0]][self.F_loc[1]]= 'F';
+        x[self.M_loc[0]][self.M_loc[1]]= 'M';
+        print(
+             " |"+x[0][0]+"|"+x[0][1]+"|"+x[0][2]+"|"+x[0][3]+"|"+x[0][4]+"|\n",
+             "|"+x[1][0]+"|"+x[1][1]+"|"+x[1][2]+"|"+x[1][3]+"|"+x[1][4]+"|\n",
+             "|"+x[2][0]+"|"+x[2][1]+"|"+x[2][2]+"|"+x[2][3]+"|"+x[2][4]+"|\n",
+             "|"+x[3][0]+"|"+x[3][1]+"|"+x[3][2]+"|"+x[3][3]+"|"+x[3][4]+"|\n",
+             "|"+x[4][0]+"|"+x[4][1]+"|"+x[4][2]+"|"+x[4][3]+"|"+x[4][4]+"|\n"
+        )
+
 
 
 class Agent:
