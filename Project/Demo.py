@@ -159,14 +159,13 @@ class Agent:
         elif (agent == "M"):
             self.current_loc = game.M_loc
 
-        
-        if ((np.array_equal(self.current_loc, PICKUP[0]) or np.array_equal(self.current_loc, PICKUP[1])) and self.carrying == False):
+        if ((np.array_equal(self.current_loc, PICKUP[0]) or np.array_equal(self.current_loc, PICKUP[1]))) and self.carrying is False:
             game.board[self.current_loc] -= 1
             self.carrying = True
             print("testingpickup")
             return "pickup"
 
-        elif (np.array_equal(self.current_loc, DROP_OFF[0]) or np.array_equal(self.current_loc, DROP_OFF[1]) or np.array_equal(self.current_loc, DROP_OFF[2]) or np.array_equal(self.current_loc, DROP_OFF[3]) and self.carrying == True):
+        elif (np.array_equal(self.current_loc, DROP_OFF[0]) or np.array_equal(self.current_loc, DROP_OFF[1]) or np.array_equal(self.current_loc, DROP_OFF[2]) or np.array_equal(self.current_loc, DROP_OFF[3])) and self.carrying is True:
             game.board[self.current_loc] += 1
             self.carrying = False
             print("testingdrop")
