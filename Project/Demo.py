@@ -172,7 +172,7 @@ class Agent:
             self.current_loc = game.M_loc
 
         
-        if (np.array_equal(self.current_loc, PICKUP[0]) or np.array_equal(self.current_loc, PICKUP[1])):
+        if ((np.array_equal(self.current_loc, PICKUP[0]) or np.array_equal(self.current_loc, PICKUP[1])) and self.carrying == False):
             game.board[self.current_loc] -= 1
             self.carrying = True
             print("testingpickup")
