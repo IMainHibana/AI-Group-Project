@@ -17,10 +17,9 @@ INITIAL_STATE_M = np.array([4, 2])  # INITIAL STATE OF MALE AGENT
 INITIAL_STATE_F = np.array([0, 2])  # INITAL STATE OF FEMALE AGENT
 PICKUP = np.array([[2, 4], [3, 1]])  # LIST OF PICKUP STATES
 DROP_OFF = np.array([[0, 0], [0, 4], [2, 2], [4, 4]])  # LIST OF DROP OFF STATES
-<<<<<<< HEAD
+
 x = [[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' ']]
-=======
->>>>>>> bfc9b8e8030b27dc78b1522a4d3883c6cc358724
+
 
 class Game:
     def __init__(self):
@@ -176,7 +175,6 @@ class Game:
         print(self.F_loc)
         print("Male location")
         print(self.M_loc)
-<<<<<<< HEAD
         #print(len(x)) testing
         #print(len(x[0])) testing
         #purge the grind
@@ -203,7 +201,6 @@ class Game:
              "|"+x[4][0]+"|"+x[4][1]+"|"+x[4][2]+"|"+x[4][3]+"|"+x[4][4]+"|\n"
         )
 
-=======
         self.all_female_locs = np.append(self.all_female_locs, self.F_loc)
         self.all_male_locs = np.append(self.all_male_locs, self.M_loc)
         #print("all female moves:")
@@ -211,7 +208,6 @@ class Game:
         #print("all male moves:")
         #print(self.all_male_locs)
         #self.q_values()
->>>>>>> bfc9b8e8030b27dc78b1522a4d3883c6cc358724
 
 
 class Agent:
