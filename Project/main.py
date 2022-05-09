@@ -13,6 +13,8 @@ class main():
         agent_F = Demo.Agent(alpha, gamma)
         agent_M = Demo.Agent(alpha, gamma)
 
+
+
         #Exp 1:
         for i in range(0, 50):
             if (cur_turn == "F"):

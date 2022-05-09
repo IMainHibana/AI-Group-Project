@@ -17,7 +17,6 @@ INITIAL_STATE_F = np.array([0, 2])  # INITAL STATE OF FEMALE AGENT
 PICKUP = np.array([[2, 4], [3, 1]])  # LIST OF PICKUP STATES
 DROP_OFF = np.array([[0, 0], [0, 4], [2, 2], [4, 4]])  # LIST OF DROP OFF STATES
 
-
 class Game:
     def __init__(self):
         # 3D array board
@@ -33,6 +32,9 @@ class Game:
         self.end_board[0, 4] = 5
         self.end_board[2, 2] = 5
         self.end_board[4, 4] = 5
+
+        self.all_female_locs = np.array([0, 2])
+        self.all_male_locs = np.array([4, 2])
 
         # All possible moves
         self.moves = ("up", "down", "left", "right", "pickup", "dropoff")
@@ -81,9 +83,17 @@ class Game:
             return -1
 
         elif action == "pickup":
+            if (agent == "F"):
+                self.all_female_locs = np.append(self.all_female_locs, ["pickup", ])
+            elif(agent == "M"):
+                self.all_male_locs = np.append(self.all_male_locs, ["pickup", ])
             return 13
 
         elif action == "dropoff":
+            if (agent == "F"):
+                self.all_female_locs = np.append(self.all_female_locs, ["dropoff", ])
+            elif (agent == "M"):
+                self.all_male_locs = np.append(self.all_male_locs, ["dropoff", ])
             return 13
 
         else:
@@ -136,6 +146,10 @@ class Game:
         print(result_possible_directions)
         return result_possible_directions
 
+    def q_values(self, state_size, action_size = 6):
+        q_table = np.zeros((state_size, action_size))
+        print(q_table)
+
     # Check to see if the game has reached final state
     def end_game(self):
         if (np.array_equal(self.board, self.end_board)):
@@ -149,6 +163,13 @@ class Game:
         print(self.F_loc)
         print("Male location")
         print(self.M_loc)
+        self.all_female_locs = np.append(self.all_female_locs, self.F_loc)
+        self.all_male_locs = np.append(self.all_male_locs, self.M_loc)
+        print("all female moves:")
+        print(self.all_female_locs)
+        print("all male moves:")
+        print(self.all_male_locs)
+        #self.q_values()
 
 
 class Agent:
@@ -186,6 +207,7 @@ class Agent:
             choices = game.check_possible_action(agent, possible_directions)
             choice = np.random.choice(choices)
             return choice
+
 
 
 
