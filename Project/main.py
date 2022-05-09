@@ -14,13 +14,14 @@ class main():
         agent_M = Demo.Agent(alpha, gamma)
 
         #Exp 1:
-        for i in range(0, 5):
+        for i in range(0, 50):
             if (cur_turn == "F"):
                 action = agent_F.Prandom(game, "F")
-                print(action)
+                
                 reward += game.action("F", action)
+                print(action)
                 game.render()
-                print("test")
+               
                 if(game.end_game()):
                     print("HAS REACHED THE END GAME")
                     return
@@ -28,8 +29,8 @@ class main():
             elif (cur_turn == "M"):
                 action = agent_M.Prandom(game, "M")
                 reward += game.action("M", action)
+                print(action)
                 game.render()
-                print("test2")
                 if(game.end_game()):
                     print("HAS REACHED THE END GAME")
                     return
