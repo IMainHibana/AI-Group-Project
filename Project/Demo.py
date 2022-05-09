@@ -1,5 +1,6 @@
 from cmath import exp
 import itertools
+from lib2to3.pgen2.driver import Driver
 from turtle import pos
 import matplotlib
 import matplotlib.style
@@ -39,7 +40,12 @@ class Game:
         self.F_loc = INITIAL_STATE_F
 
     #List of possible action with their respective reward
-    def action(self, action, agent):
+    def action(self, agent, action):
+        if (agent == "F"):
+            temporary = self.F_loc
+        elif (agent == "M"):
+            temporary = self.M_loc
+
         if action == "up":
             temporary = (temporary[0] - 1, temporary[1])
             return -1
@@ -73,50 +79,50 @@ class Game:
                 if(direction == "up"):
                     temporary_loc = self.F_loc
                     temporary_loc[0] += 1
-                    if(temporary_loc == self.M_loc or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.M_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
                         possible_directions -= "up"
                 elif(direction == "down"):
                     temporary_loc = self.F_loc
                     temporary_loc[0] -= 1
-                    if(temporary_loc == self.M_loc or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.M_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
                         possible_directions -= "down"
                 elif(direction == "left"):
                     temporary_loc = self.F_loc
                     temporary_loc[1] -= 1
-                    if(temporary_loc == self.M_loc or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.M_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
                         possible_directions -= "left"
                 elif(direction == "right"):
                     temporary_loc = self.F_loc
                     temporary_loc[1] += 1
-                    if(temporary_loc == self.M_loc or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.M_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
                         possible_directions -= "right"
         elif (agent == "M"):
             for direction in possible_directions:
                 if(direction == "up"):
                     temporary_loc = self.M_loc
                     temporary_loc[0] += 1
-                    if(temporary_loc == self.F_loc or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.F_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
                         possible_directions -= "up"
                 elif(direction == "down"):
                     temporary_loc = self.M_loc
                     temporary_loc[0] -= 1
-                    if(temporary_loc == self.F_loc or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.F_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
                         possible_directions -= "down"
                 elif(direction == "left"):
                     temporary_loc = self.M_loc
                     temporary_loc[1] -= 1
-                    if(temporary_loc == self.F_loc or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.F_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
                         possible_directions -= "left"
                 elif(direction == "right"):
                     temporary_loc = self.M_loc
                     temporary_loc[1] += 1
-                    if(temporary_loc == self.F_loc or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.F_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
                         possible_directions -= "right"
         return possible_directions
 
     #Check to see if the game has reached final state
     def end_game(self):
-        if(self.board == self.end_board):
+        if(np.array_equal(self.board, self.end_board)):
             print("===============================Terminal State Reached=============")
             return True
         else:
@@ -141,14 +147,14 @@ class Agent:
         elif (agent == "M"):
             self.current_loc = game.M_loc
 
-        print(PICKUP)
-        if (self.current_loc in PICKUP):
+        
+        if (np.array_equal(self.current_loc, PICKUP[0]) or np.array_equal(self.current_loc, PICKUP[1])):
             game.board[self.current_loc] -= 1
             self.carrying = True
             print("testingpickup")
             return "pickup"
 
-        elif (self.current_loc in DROP_OFF and self.carrying == True):
+        elif (np.array_equal(self.current_loc, DROP_OFF[0]) or np.array_equal(self.current_loc, DROP_OFF[1]) or np.array_equal(self.current_loc, DROP_OFF[2]) or np.array_equal(self.current_loc, DROP_OFF[3]) and self.carrying == True):
             game.board[self.current_loc] += 1
             self.carrying = False
             print("testingdrop")
@@ -157,7 +163,7 @@ class Agent:
         else:
             possible_directions = ["up", "down", "left", "right"]
             choices = game.check_possible_action(agent, possible_directions)
-            choice = np.random(choices)
+            choice = np.random.choice(choices)
             return choice
 
 
