@@ -19,6 +19,17 @@ PICKUP = np.array([[2, 4], [3, 1]])  # LIST OF PICKUP STATES
 DROP_OFF = np.array([[0, 0], [0, 4], [2, 2], [4, 4]])  # LIST OF DROP OFF STATES
 
 x = [[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' '],[' ',' ',' ',' ',' ']]
+global D1, D2, D3, D4, P1, P2, FS,MS
+FS = 0
+MS = 0
+
+D1 = 0
+D2 = 0
+D3 = 0
+D4 = 0
+ 
+P1 = 10
+P2 = 10
 
 
 class Game:
@@ -182,14 +193,14 @@ class Game:
             for col in range(0, 5):
                 x[row][col] = ' ';
         #put in drop off
-        [0, 0], [0, 4], [2, 2], [4, 4]
-        x[0][0]= 'D';
-        x[0][4]= 'D';
-        x[2][2]= 'D';
-        x[4][4]= 'D';
+        global D1, D2, D3, D4, P1, P2, FS, MS 
+        x[0][0]= str(D1);
+        x[0][4]= str(D2);
+        x[2][2]= str(D3);
+        x[4][4]= str(D4);
         #put in pick up
-        x[2][4]= 'P';
-        x[3][1]= 'P';
+        x[2][4]= str(P1);
+        x[3][1]= str(P2);
         #put in the F and M agents
         x[self.F_loc[0]][self.F_loc[1]]= 'F';
         x[self.M_loc[0]][self.M_loc[1]]= 'M';
@@ -200,6 +211,45 @@ class Game:
              "|"+x[3][0]+"|"+x[3][1]+"|"+x[3][2]+"|"+x[3][3]+"|"+x[3][4]+"|\n",
              "|"+x[4][0]+"|"+x[4][1]+"|"+x[4][2]+"|"+x[4][3]+"|"+x[4][4]+"|\n"
         )
+       
+        if((self.F_loc[0] == 0) and (self.F_loc[1] == 0) and (FS == 1)):
+            D1+= 1
+            FS = 0
+        if((self.F_loc[0] == 0) and (self.F_loc[1] == 4) and (FS == 1)):
+            D2+= 1
+            FS = 0
+        if((self.F_loc[0] == 2) and (self.F_loc[1] == 2) and (FS == 1)):
+            D3+= 1 
+            FS = 0 
+        if((self.F_loc[0] == 4) and (self.F_loc[1] == 4) and (FS == 1)):
+            D4+= 1 
+            FS = 0       
+        if((self.F_loc[0] == 2) and (self.F_loc[1] == 4) and (FS == 0)):
+            P1-= 1  
+            FS = 1
+        if((self.F_loc[0] == 3) and (self.F_loc[1] == 1) and (FS == 0)):
+            P2-= 1
+            FS = 1
+   
+ 
+        if((self.M_loc[0] == 0) and (self.M_loc[1] == 0) and (MS == 1)):
+            D1+= 1
+            MS = 0
+        if((self.M_loc[0] == 0) and (self.M_loc[1] == 4) and (MS == 1)):
+            D2+= 1
+            MS = 0
+        if((self.M_loc[0] == 2) and (self.M_loc[1] == 2) and (MS == 1)):
+            D3+= 1
+            MS = 0
+        if((self.M_loc[0] == 4) and (self.M_loc[1] == 4) and (MS == 1)):
+            D4+= 1
+            MS = 0      
+        if((self.M_loc[0] == 2) and (self.M_loc[1] == 4) and (MS == 0)):
+            P1-= 1  
+            MS = 1
+        if((self.M_loc[0] == 3) and (self.M_loc[1] == 1) and (MS == 0)):
+            P2-= 1
+            MS = 1
 
         self.all_female_locs = np.append(self.all_female_locs, self.F_loc)
         self.all_male_locs = np.append(self.all_male_locs, self.M_loc)
@@ -209,6 +259,7 @@ class Game:
         #print(self.all_male_locs)
         #self.q_values()
 
+        
 
 class Agent:
     def __init__(self, alpha, gamma):
