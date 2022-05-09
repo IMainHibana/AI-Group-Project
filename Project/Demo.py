@@ -95,25 +95,25 @@ class Game:
                 if(direction == "up"):
                     temporary_loc = self.F_loc
                     temporary_loc[0] += 1
-                    if(np.array_equal(temporary_loc, self.M_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.M_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 4) or (temporary_loc[1] < 0 or temporary_loc[1] > 4)):
                         print("removing up")
                         possible_directions.remove("up")
                 elif(direction == "down"):
                     temporary_loc = self.F_loc
                     temporary_loc[0] -= 1
-                    if(np.array_equal(temporary_loc, self.M_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.M_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 4) or (temporary_loc[1] < 0 or temporary_loc[1] > 4)):
                         print("removing down")
                         possible_directions.remove("down")
                 elif(direction == "left"):
                     temporary_loc = self.F_loc
                     temporary_loc[1] -= 1
-                    if(np.array_equal(temporary_loc, self.M_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.M_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 4) or (temporary_loc[1] < 0 or temporary_loc[1] > 4)):
                         print("removing left")
                         possible_directions.remove("left")
                 elif(direction == "right"):
                     temporary_loc = self.F_loc
                     temporary_loc[1] += 1
-                    if(np.array_equal(temporary_loc, self.M_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.M_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 4) or (temporary_loc[1] < 0 or temporary_loc[1] > 4)):
                         print("removing right")
                         possible_directions.remove("right")
         elif (agent == "M"):
@@ -121,25 +121,25 @@ class Game:
                 if(direction == "up"):
                     temporary_loc = self.M_loc
                     temporary_loc[0] += 1
-                    if(np.array_equal(temporary_loc, self.F_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.F_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 4) or (temporary_loc[1] < 0 or temporary_loc[1] > 4)):
                         print("removing up")
                         possible_directions.remove("up")
                 elif(direction == "down"):
                     temporary_loc = self.M_loc
                     temporary_loc[0] -= 1
-                    if(np.array_equal(temporary_loc, self.F_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.F_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 4) or (temporary_loc[1] < 0 or temporary_loc[1] > 4)):
                         print("removing down")
                         possible_directions.remove("down")
                 elif(direction == "left"):
                     temporary_loc = self.M_loc
                     temporary_loc[1] -= 1
-                    if(np.array_equal(temporary_loc, self.F_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.F_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 4) or (temporary_loc[1] < 0 or temporary_loc[1] > 4)):
                         print("removing left")
                         possible_directions.remove("left")
                 elif(direction == "right"):
                     temporary_loc = self.M_loc
                     temporary_loc[1] += 1
-                    if(np.array_equal(temporary_loc, self.F_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 5) or (temporary_loc[1] < 0 or temporary_loc[1] > 5)):
+                    if(np.array_equal(temporary_loc, self.F_loc) or (temporary_loc[0] < 0 or temporary_loc[0] > 4) or (temporary_loc[1] < 0 or temporary_loc[1] > 4)):
                         print("removing right")
                         possible_directions.remove("right")
         return possible_directions
